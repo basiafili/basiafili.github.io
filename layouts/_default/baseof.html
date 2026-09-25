@@ -1,0 +1,48 @@
+{{ $articlePager := false }}
+{{ if and .IsSection (eq .Section "articles") }}
+  {{ $articles := where site.RegularPages "Section" "articles" }}
+  {{ $articlePager = .Paginate $articles.ByDate.Reverse 10 }}
+  {{ .Store.Set "articlePager" $articlePager }}
+{{ end }}
+{{ $pageTitle := site.Title }}
+{{ $shareURL := .Permalink }}
+{{ if not .IsHome }}
+  {{ $pageTitle = .Title }}
+  {{ if $articlePager }}
+    {{ $shareURL = $articlePager.URL | absURL }}
+    {{ if gt $articlePager.PageNumber 1 }}{{ $pageTitle = printf "%s — Page %d" .Title $articlePager.PageNumber }}{{ end }}
+  {{ end }}
+{{ end }}
+<!doctype html>
+<html lang="{{ site.Language.Locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ $pageTitle }}{{ if not .IsHome }} · {{ site.Title }}{{ end }}</title>
+  {{ with .Description }}<meta name="description" content="{{ . }}">{{ end }}
+  <meta property="og:title" content="{{ $pageTitle }}">
+  {{ with .Description }}<meta property="og:description" content="{{ . }}">{{ end }}
+  <meta property="og:type" content="{{ if and .IsPage (eq .Section "articles") }}article{{ else }}website{{ end }}">
+  <meta property="og:url" content="{{ $shareURL }}">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ $pageTitle }}">
+  {{ with .Description }}<meta name="twitter:description" content="{{ . }}">{{ end }}
+  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="column">
+      <a class="site-name" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="{{ site.Home.RelPermalink }}"{{ if .IsHome }} aria-current="page"{{ end }}>Home</a></li>
+          <li><a href="{{ "articles/" | relURL }}"{{ if $articlePager }}{{ if eq $articlePager.PageNumber 1 }} aria-current="page"{{ end }}{{ end }}>Articles</a></li>
+          <li><a href="{{ "about/" | relURL }}"{{ if eq .RelPermalink ("about/" | relURL) }} aria-current="page"{{ end }}>About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="column">{{ block "main" . }}{{ end }}</main>
+  <footer class="column"><p>© 2026 Barbara Filipowska. All rights reserved.</p></footer>
+</body>
+</html>

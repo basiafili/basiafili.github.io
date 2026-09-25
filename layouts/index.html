@@ -1,0 +1,18 @@
+{{ define "main" }}
+  <h1>{{ site.Title }}</h1>
+  {{ .Content }}
+  <h2>Recent articles</h2>
+  {{ $articles := where site.RegularPages "Section" "articles" }}
+  {{ with first 5 $articles.ByDate.Reverse }}
+    <ul class="article-list" role="list">
+      {{ range . }}
+        <li>
+          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <p class="article-date">{{ .Date.Format "2 January 2006" }}</p>
+          <p>{{ .Description }}</p>
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+  <p><a href="{{ "articles/" | relURL }}">All articles</a></p>
+{{ end }}

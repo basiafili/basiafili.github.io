@@ -1,0 +1,27 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  {{ $paginator := .Store.Get "articlePager" }}
+  {{ with $paginator.Pages }}
+    <ul class="article-list" role="list">
+      {{ range . }}
+        <li>
+          <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+          <p class="article-date">{{ .Date.Format "2 January 2006" }}</p>
+          <p>{{ .Description }}</p>
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+  {{ if gt $paginator.TotalPages 1 }}
+    <nav class="pagination" aria-label="Article pages">
+      <ul>
+        {{ with $paginator.Prev }}<li><a href="{{ .URL }}">Previous page</a></li>{{ end }}
+        {{ range $paginator.Pagers }}
+          <li><a href="{{ .URL }}"{{ if eq .PageNumber $paginator.PageNumber }} aria-current="page"{{ end }}>Page {{ .PageNumber }}</a></li>
+        {{ end }}
+        {{ with $paginator.Next }}<li><a href="{{ .URL }}">Next page</a></li>{{ end }}
+      </ul>
+    </nav>
+  {{ end }}
+{{ end }}

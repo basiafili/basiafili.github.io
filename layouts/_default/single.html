@@ -1,0 +1,13 @@
+{{ define "main" }}
+  {{ $body := strings.TrimSpace .Content }}
+  {{ $firstLine := strings.TrimSpace (index (split (strings.TrimSpace .RawContent) "\n") 0) }}
+  {{ if and (eq .Section "articles") (eq $firstLine (printf "# %s" .Title)) }}
+    {{ $heading := printf "%s</h1>" (index (split $body "</h1>") 0) }}
+    {{ $heading | safeHTML }}
+    {{ $body = strings.TrimPrefix $heading $body }}
+  {{ else }}
+    <h1>{{ .Title }}</h1>
+  {{ end }}
+  {{ if eq .Section "articles" }}<p class="article-date">{{ .Date.Format "2 January 2006" }}</p>{{ end }}
+  {{ $body | safeHTML }}
+{{ end }}

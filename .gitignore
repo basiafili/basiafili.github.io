@@ -1,0 +1,8 @@
+/public/
+/resources/_gen/
+.hugo_build.lock
+.DS_Store
+/.tools/hugo
+/LOCAL-NOTES.md
+/Personal-site.md
+/Personal-Website-Design-and-Implementation-Specification.md

@@ -1,0 +1,10 @@
+baseURL = 'http://localhost:1313/'
+locale = 'en-US'
+title = 'Barbara Filipowska'
+disableKinds = ['taxonomy', 'term']
+
+[pagination]
+disableAliases = true
+
+[markup.goldmark.renderer]
+unsafe = false
