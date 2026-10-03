@@ -25,7 +25,7 @@
 :root {
   color-scheme: light;
   --page: #f3f5f7;
-  --content: #fafaf8;
+  --content: #ffffff;
   --header: #f1f2f2;
   --text: #292d32;
   --link: #163a63;
@@ -66,21 +66,37 @@ body {
 
 .site-header .column { padding-block: 1rem; }
 
+.header-identity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .site-name,
 .site-name:visited {
   display: block;
+  flex: 1 1 0;
+  min-width: 0;
   color: var(--link);
-  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 700;
   line-height: 1.25;
-  text-align: right;
+  text-align: left;
   text-decoration: none;
   text-transform: uppercase;
   overflow-wrap: anywhere;
 }
 
+.site-portrait {
+  display: block;
+  flex: none;
+  width: clamp(5rem, 30vw, 11.25rem);
+  height: auto;
+  aspect-ratio: 1;
+}
+
 .site-header nav {
-  margin-block-start: 0.75rem;
+  margin-block-start: 1.5rem;
 }
 
 .site-header nav ul {
